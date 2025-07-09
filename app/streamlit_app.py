@@ -21,7 +21,8 @@ if uploaded_file is not None:
     # Resize to 32x32 for CIFAR-10
     image = image.resize((32, 32))
     
-    st.image(image, caption="Uploaded Image", use_column_width=False)
+   st.image(image, caption='Uploaded Image', use_container_width=True)
+
     
     # Preprocess image
     img_array = np.array(image) / 255.0  # normalize
