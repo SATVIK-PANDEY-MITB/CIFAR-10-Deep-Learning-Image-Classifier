@@ -11,6 +11,7 @@ This project is a web application built with **Streamlit** and **TensorFlow** th
   - `airplane`, `automobile`, `bird`, `cat`, `deer`, `dog`, `frog`, `horse`, `ship`, `truck`
 - Uses a pre-trained model saved as `TransferlearningSP.keras`
 - Deployed via Streamlit
+  
 
 
 
