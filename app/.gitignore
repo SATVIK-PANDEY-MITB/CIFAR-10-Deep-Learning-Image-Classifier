@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+*.keras
+.vscode/
+.ipynb_checkpoints/
+.env
