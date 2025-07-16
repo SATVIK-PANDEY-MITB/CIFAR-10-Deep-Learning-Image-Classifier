@@ -6,7 +6,7 @@ import streamlit as st
 # ------------------- App Configuration -------------------
 st.set_page_config(
     page_title="CIFAR-10 Classifier",
-    page_icon="🤖",
+    page_icon="🖼️",
     layout="centered",
 )
 
