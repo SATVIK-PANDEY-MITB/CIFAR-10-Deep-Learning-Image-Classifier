@@ -91,5 +91,31 @@ if uploaded_file:
         # Upscale the resized image for clear display
         display_image = resized_image.resize((256, 256), resample=Image.NEAREST)
 
-        # Show the crisp upscaled image (no deprecati
+        # Show the crisp upscaled image (no deprecation warning)
+        st.image(display_image, caption='✅ Uploaded Image (Upscaled)', use_container_width=False, width=256)
 
+        # Prepare image for prediction
+        img_array = np.array(resized_image) / 255.0
+        img_array = img_array.astype(np.float32)
+
+        if img_array.shape == (32, 32, 3):
+            prediction = model.predict(np.expand_dims(img_array, axis=0))
+            predicted_index = np.argmax(prediction)
+            predicted_class = class_names[predicted_index]
+            confidence = np.max(prediction) * 100
+
+            st.markdown(f"""<div class="prediction-box">
+                            <div class="prediction-text">🧠 Prediction: {predicted_class.upper()}</div>
+                            <div class="confidence-text">📈 Confidence: {confidence:.2f}%</div>
+                            </div>""", unsafe_allow_html=True)
+        else:
+            st.error("❌ Uploaded image must be a 32x32 RGB image.")
+
+# ------------------- Footer / Info -------------------
+with st.expander("ℹ️ About this app"):
+    st.markdown("""
+    - **Model**: CNN with transfer learning trained on CIFAR-10
+    - **Classes**: Airplane, Automobile, Bird, Cat, Deer, Dog, Frog, Horse, Ship, Truck  
+    - **Tech Stack**: Streamlit + TensorFlow + Pillow  
+    - 💡 Tip: Upload or resize your image to **32x32 pixels** before uploading.
+    """)
