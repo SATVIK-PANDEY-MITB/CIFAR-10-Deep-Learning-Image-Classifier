@@ -6,7 +6,7 @@ import streamlit as st
 # ------------------- App Configuration -------------------
 st.set_page_config(
     page_title="CIFAR-10 Classifier",
-    page_icon="🖼️",
+    page_icon="🤖",
     layout="centered",
 )
 
@@ -72,19 +72,27 @@ def load_model():
 
 model = load_model()
 
-# ------------------- Page Content -------------------
+# ------------------- Page Header -------------------
 st.markdown("<div class='title'>🖼️ CIFAR-10 Image Classifier</div>", unsafe_allow_html=True)
 st.markdown("<div class='subtitle'>Upload a 32x32 image of an object, and get its predicted category instantly!</div>", unsafe_allow_html=True)
 
+# ------------------- File Upload -------------------
 uploaded_file = st.file_uploader("Upload a 32x32 image (PNG, JPG, JPEG)", type=["png", "jpg", "jpeg"], label_visibility="visible")
 
-# ------------------- Image Classification -------------------
+# ------------------- Classification -------------------
 if uploaded_file:
     with st.spinner("🔍 Analyzing your image..."):
-        image = Image.open(uploaded_file).convert("RGB").resize((32, 32))
-        st.image(image, caption='✅ Uploaded Image', use_container_width=True)
+        # Load original image for display
+        original_image = Image.open(uploaded_file).convert("RGB")
 
-        img_array = np.array(image) / 255.0
+        # Resize for model input
+        resized_image = original_image.resize((32, 32))
+
+        # Show original image (not blurry)
+        st.image(original_image, caption='✅ Uploaded Image', width=200)
+
+        # Prepare image for prediction
+        img_array = np.array(resized_image) / 255.0
         img_array = img_array.astype(np.float32)
 
         if img_array.shape == (32, 32, 3):
