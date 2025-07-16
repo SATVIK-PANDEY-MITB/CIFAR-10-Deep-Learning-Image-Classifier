@@ -82,14 +82,17 @@ uploaded_file = st.file_uploader("Upload a 32x32 image (PNG, JPG, JPEG)", type=[
 # ------------------- Classification -------------------
 if uploaded_file:
     with st.spinner("🔍 Analyzing your image..."):
-        # Load original image for display
+        # Load original image
         original_image = Image.open(uploaded_file).convert("RGB")
 
-        # Resize for model input
+        # Resize for model prediction
         resized_image = original_image.resize((32, 32))
 
-        # Show original image (not blurry)
-        st.image(original_image, caption='✅ Uploaded Image', width=200)
+        # Upscale the resized image for clear display
+        display_image = resized_image.resize((256, 256), resample=Image.NEAREST)
+
+        # Show the crisp upscaled image
+        st.image(display_image, caption='✅ Uploaded Image (Upscaled)', use_column_width=False)
 
         # Prepare image for prediction
         img_array = np.array(resized_image) / 255.0
@@ -112,8 +115,7 @@ if uploaded_file:
 with st.expander("ℹ️ About this app"):
     st.markdown("""
     - **Model**: CNN with transfer learning trained on CIFAR-10
-    - **Classes**: Airplane, Automobile, Bird, Cat, Deer, Dog, Frog, Horse, Ship, Truck
-    - **Tech**: Streamlit, TensorFlow, Pillow
-    - 💡 Tip: Resize your image to **32x32 pixels** before uploading for accurate results.
+    - **Classes**: Airplane, Automobile, Bird, Cat, Deer, Dog, Frog, Horse, Ship, Truck  
+    - **Tech Stack**: Streamlit + TensorFlow + Pillow  
+    - 💡 Tip: Upload or resize your image to **32x32 pixels** before uploading.
     """)
-
